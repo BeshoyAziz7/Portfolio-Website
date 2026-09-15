@@ -5,7 +5,7 @@
 
 *Building immersive experiences from the browser to VR.*
 
-[![Live Site](https://img.shields.io/badge/Live-Portfolio-8b5cf6?style=for-the-badge)](https://github.com/BeshoyAziz7)
+[![Live Site](https://img.shields.io/badge/Live-Portfolio-8b5cf6?style=for-the-badge)](https://beshoyaziz7.github.io/Portfolio-Website/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-ec4899?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/beshoy-aziz-183450279/)
 [![Resume](https://img.shields.io/badge/Resume-Download-22d3ee?style=for-the-badge)](https://drive.google.com/uc?export=download&id=1dr2GdxyxMEHD273-MYJ5MN4OXo54jvPi)
 
