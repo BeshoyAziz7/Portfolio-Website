@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beshoy Aziz — Creative Portfolio</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="animated-gradient"></div>
+    <div class="grain-overlay" aria-hidden="true"></div>
+    <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+      <div class="navbar-container">
+        <div class="nav-logo" onclick="scrollToTop()">
+          <div class="nav-logo-icon">B</div>
+          <span class="nav-logo-text">Beshoy</span>
+        </div>
+        <div class="nav-links">
+          <button
+            class="nav-link active"
+            data-section="home"
+            onclick="scrollToSection('home')"
+          >
+            Home
+          </button>
+          <button
+            class="nav-link"
+            data-section="about"
+            onclick="scrollToSection('about')"
+          >
+            About
+          </button>
+          <button
+            class="nav-link"
+            data-section="skills"
+            onclick="scrollToSection('skills')"
+          >
+            Skills
+          </button>
+          <button
+            class="nav-link"
+            data-section="projects"
+            onclick="scrollToSection('projects')"
+          >
+            Projects
+          </button>
+        </div>
+        <button class="nav-cta" onclick="scrollToSection('footer-curtain')">
+          Hire Me
+        </button>
+        <button
+          class="mobile-menu-btn"
+          id="mobileMenuBtn"
+          onclick="toggleMobileMenu()"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+      <button class="mobile-menu-link" onclick="scrollToSection('home')">
+        Home
+      </button>
+      <button class="mobile-menu-link" onclick="scrollToSection('about')">
+        About
+      </button>
+      <button class="mobile-menu-link" onclick="scrollToSection('skills')">
+        Skills
+      </button>
+      <button class="mobile-menu-link" onclick="scrollToSection('projects')">
+        Projects
+      </button>
+    </div>
+
+    <!-- ----- GLYPH PORTAL HERO ----- -->
+    <section
+      class="hero glyph-portal"
+      id="home"
+      data-word="BESHOY"
+      data-scroll-length="2.2"
+      data-interactive="true"
+      data-font-family="'Playfair Display', serif"
+      data-font-weight="900"
+    >
+      <div class="gp-viewport" aria-hidden="true"></div>
+
+      <div class="gp-pin">
+        <!-- Giant scroll-zoom glyph background -->
+        <div class="gp-field" aria-hidden="true"></div>
+
+        <!-- Floating particles, rendered over the glyph -->
+        <div class="hero-particles" id="particles"></div>
+
+        <svg class="gp-art" aria-hidden="true" focusable="false">
+          <defs>
+            <clipPath class="gp-clip" clipPathUnits="userSpaceOnUse">
+              <text class="gp-glyph" x="0" y="0"></text>
+            </clipPath>
+          </defs>
+          <g class="gp-marks"><path></path></g>
+        </svg>
+
+        <div
+          class="gp-choices"
+          role="radiogroup"
+          aria-label="Choose the letter to enter through"
+        ></div>
+        <label class="gp-touch-picker">
+          <span class="sr-only">Entry letter</span>
+          <select class="gp-select"></select>
+        </label>
+
+        <!-- Hero content, split above/below the giant glyph -->
+        <div class="gp-front">
+          <div class="hero-content">
+            <h1 class="hero-title" id="dancingLetters">Web Developer</h1>
+            <p class="dancing-hint">
+              ✨ <span>Kean University Graduate</span> ✨
+            </p>
+          </div>
+
+          <div class="hero-content-bottom">
+            <p class="hero-subtitle">
+              Web Developer, <strong>UI/UX Designer</strong> &amp;
+              <strong>Game Designer</strong> — building immersive experiences
+              from the browser to <strong>VR</strong>
+            </p>
+            <div class="hero-buttons">
+              <button
+                class="magnetic-btn"
+                onclick="scrollToSection('projects')"
+              >
+                <span>View My Work <span class="btn-arrow">→</span></span>
+              </button>
+              <button
+                class="magnetic-btn secondary"
+                onclick="scrollToSection('footer-curtain')"
+              >
+                <span>Let's Connect</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="hero-marquee" aria-hidden="true">
+            <div class="hero-marquee-track" id="heroMarquee"></div>
+          </div>
+        </div>
+
+        <span class="gp-fallback" aria-hidden="true"></span>
+      </div>
+
+      <div class="gp-content" id="about" tabindex="-1">
+        <div class="about-story" id="aboutStory">
+          <div class="about-story-sticky" id="aboutStorySticky">
+            <div class="about-story-bg" aria-hidden="true"></div>
+            <div class="about-story-numeral" aria-hidden="true">01</div>
+
+            <div class="about-story-inner">
+              <div class="about-story-visual">
+                <div class="about-photo-frame">
+                  <img
+                    src="Images/Background.jpg"
+                    alt="Beshoy Aziz - Web Developer & Game Designer"
+                    loading="lazy"
+                  />
+                  <div class="about-photo-scan" aria-hidden="true"></div>
+
+                  <div class="about-orbit-badge" style="top: 6%; left: 6%">
+                    <span class="badge-icon" aria-hidden="true">📍</span> Toms
+                    River, NJ
+                  </div>
+                  <div class="about-orbit-badge" style="top: 20%; right: 6%">
+                    <span class="badge-icon" aria-hidden="true">🥽</span> VR
+                    &amp; AR Research
+                  </div>
+                  <div class="about-orbit-badge" style="bottom: 6%; left: 6%">
+                    <span class="badge-icon" aria-hidden="true">🏆</span> 6+
+                    Projects
+                  </div>
+                  <div class="about-orbit-badge" style="bottom: 20%; right: 6%">
+                    <span class="badge-icon" aria-hidden="true">🎓</span> Kean
+                    University
+                  </div>
+                </div>
+              </div>
+
+              <div class="about-story-content">
+                <article class="about-chapter" data-beat="0">
+                  <span class="about-badge-label">👋 Chapter 01 · Origin</span>
+                  <h2 class="section-title">
+                    Computer Science Graduate &amp;<br /><span class="highlight"
+                      >Creative Developer</span
+                    >
+                  </h2>
+                  <p class="section-text">
+                    I'm a
+                    <strong
+                      >Computer Science graduate from Kean University</strong
+                    >
+                    who builds at the intersection of code and creativity —
+                    turning ideas into interactive, immersive experiences.
+                  </p>
+                </article>
+
+                <article class="about-chapter" data-beat="1">
+                  <span class="about-badge-label"
+                    >🥽 Chapter 02 · Research</span
+                  >
+                  <h2 class="section-title">
+                    Exploring
+                    <span class="highlight">Virtual &amp; Augmented</span
+                    ><br />Realities
+                  </h2>
+                  <p class="section-text">
+                    My academic journey has been marked by specialized research
+                    in <strong>Virtual Reality and Augmented Reality</strong>.
+                    I've co-authored studies examining how immersive
+                    technologies impact
+                    <strong>learning environments</strong> and
+                    <strong>pedestrian behavior</strong>.
+                  </p>
+                </article>
+
+                <article class="about-chapter" data-beat="2">
+                  <span class="about-badge-label">🧰 Chapter 03 · Toolkit</span>
+                  <h2 class="section-title">
+                    A Versatile <span class="highlight">Technical Arsenal</span>
+                  </h2>
+                  <p class="section-text">
+                    Proficient in <strong>C++, Java, C#, and Python</strong>,
+                    alongside front-end development in
+                    <strong>HTML, CSS, and JavaScript</strong> — complemented by
+                    hands-on <strong>game engine experience</strong>.
+                  </p>
+                  <div class="about-story-stats">
+                    <div class="story-stat">
+                      <div
+                        class="story-stat-number"
+                        data-count-to="6"
+                        data-suffix="+"
+                      >
+                        0
+                      </div>
+                      <div class="story-stat-label">Projects Completed</div>
+                    </div>
+                    <div class="story-stat">
+                      <div
+                        class="story-stat-number"
+                        data-count-to="1"
+                        data-suffix="+"
+                      >
+                        0
+                      </div>
+                      <div class="story-stat-label">Years Experience</div>
+                    </div>
+                    <div class="story-stat">
+                      <div
+                        class="story-stat-number"
+                        data-count-to="150"
+                        data-suffix="K+"
+                      >
+                        0
+                      </div>
+                      <div class="story-stat-label">Lines of Code</div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="about-chapter" data-beat="3">
+                  <span class="about-badge-label">🚀 Chapter 04 · Vision</span>
+                  <h2 class="section-title">
+                    From the Browser<br />to
+                    <span class="highlight">Virtual Reality</span>
+                  </h2>
+                  <p class="section-text">
+                    Whether it's an immersive VR experience or a pixel-perfect
+                    website, I build across platforms and interfaces — and I'm
+                    always looking for the next great collaboration.
+                  </p>
+                  <div class="about-actions">
+                    <a
+                      class="magnetic-btn"
+                      href="https://drive.google.com/file/d/1P5_H7ljKvamk8pAZjQxnL1b8-dATQmCX/view?usp=sharing"
+                      target="_blank"
+                      rel="noopener"
+                      style="text-decoration: none; display: inline-block"
+                    >
+                      <span>Download Resume</span>
+                    </a>
+                    <button
+                      class="magnetic-btn secondary"
+                      onclick="scrollToSection('footer-curtain')"
+                    >
+                      <span>Let's Talk</span>
+                    </button>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <div class="about-story-progress" aria-hidden="true">
+              <div class="about-story-progress-chapters">
+                <span class="progress-chapter" data-beat="0">Origin</span>
+                <span class="progress-chapter" data-beat="1">Research</span>
+                <span class="progress-chapter" data-beat="2">Toolkit</span>
+                <span class="progress-chapter" data-beat="3">Vision</span>
+              </div>
+              <div class="about-story-progress-track">
+                <div
+                  class="about-story-progress-fill"
+                  id="aboutProgressFill"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="skills-section" id="skills">
+      <div class="skills-numeral" aria-hidden="true">02</div>
+      <div class="skills-inner">
+        <div class="skills-header reveal">
+          <h2 class="skills-heading">
+            Skills <span class="skills-amp">&amp;</span>
+            <span class="highlight">Superpowers</span>
+          </h2>
+          <p class="skills-subheading">
+            <strong>Six disciplines.</strong> One toolbox.
+            <span class="skills-subheading-accent">Drag, swipe, or click</span>
+            through to see them come alive.
+          </p>
+        </div>
+        <div
+          id="skillsCoverflow"
+          style="margin: 3rem 0; min-height: 400px"
+        ></div>
+      </div>
+    </section>
+
+    <!-- ----- STACK SPREAD — Full-bleed scroll scatter between projects & footer ----- -->
+    <section id="projects">
+      <div class="ss-section-label"></div>
+      <div class="projects-numeral" aria-hidden="true">03</div>
+      <div id="stack-spread-sticky">
+        <!-- Centre copy (fades in mid-scatter) -->
+        <div id="stack-spread-copy">
+          <h2>
+            Featured<span class="ss-muted"> Projects</span><br />Work That
+            Speaks.
+          </h2>
+          <p>
+            A selection of work spanning web development, VR, game design,<br />and
+            interactive applications.
+          </p>
+        </div>
+
+        <!-- Cards injected by JS -->
+        <div id="stack-spread-cards"></div>
+
+        <!-- Scroll hint (fades out as scatter begins) -->
+        <div id="stack-spread-hint">
+          <span>Scroll</span>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ----- MOTION FOOTER — Curtain Reveal ----- -->
+    <div id="footer-curtain">
+      <footer id="cinematic-footer" class="cinematic-footer-wrapper">
+        <!-- Aurora Glow -->
+        <div class="footer-aurora animate-footer-breathe"></div>
+
+        <!-- Grid Background -->
+        <div class="footer-bg-grid"></div>
+
+        <!-- Giant Background Text -->
+        <div id="footer-giant-text" class="footer-giant-bg-text">BESHOY</div>
+
+        <!-- ── 1. Diagonal Marquee ── -->
+        <div class="footer-marquee-strip" aria-hidden="true">
+          <div
+            class="footer-marquee-track animate-footer-scroll-marquee"
+            id="footerMarqueeTrack"
+          >
+            <!-- filled by JS -->
+          </div>
+        </div>
+
+        <!-- ── 2. Main Center Content ── -->
+        <div class="footer-center">
+          <h2 id="footer-heading" class="footer-heading footer-text-glow">
+            Let's Build Together.
+          </h2>
+
+          <div
+            id="footer-links"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 1.5rem;
+              width: 100%;
+            "
+          >
+            <!-- Primary CTA pills -->
+            <div class="footer-pills-primary">
+              <a
+                href="mailto:beshoyaziz707@gmail.com"
+                class="footer-glass-pill footer-pill-primary footer-magnetic"
+              >
+                <!-- Email icon -->
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect width="20" height="16" x="2" y="4" rx="2" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                </svg>
+                Say Hello
+              </a>
+
+              <a
+                href="https://github.com/BeshoyAziz7"
+                target="_blank"
+                rel="noopener"
+                class="footer-glass-pill footer-pill-primary footer-magnetic"
+              >
+                <!-- GitHub icon -->
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207
+                                11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416
+                                -4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083
+                                -.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834
+                                2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305
+                                -5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124
+                                -.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266
+                                1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552
+                                3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84
+                                1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372
+                                .823 1.102.823 2.222v3.293c0 .319.192.694.801.576
+                                4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                  />
+                </svg>
+                GitHub
+              </a>
+
+              <a
+                href="https://www.linkedin.com/in/beshoy-aziz-183450279/"
+                target="_blank"
+                rel="noopener"
+                class="footer-glass-pill footer-pill-primary footer-magnetic"
+              >
+                <!-- LinkedIn icon -->
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5
+                                5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11
+                                19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s
+                                .784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783
+                                1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4
+                                0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7
+                                2.476v6.759z"
+                  />
+                </svg>
+                LinkedIn
+              </a>
+            </div>
+
+            <!-- Secondary text pills -->
+            <div class="footer-pills-secondary">
+              <a
+                href="https://drive.google.com/file/d/1P5_H7ljKvamk8pAZjQxnL1b8-dATQmCX/view?usp=sharing"
+                target="_blank"
+                rel="noopener"
+                class="footer-glass-pill footer-pill-secondary footer-magnetic"
+              >
+                Resume / CV
+              </a>
+              <a
+                href="https://www.instagram.com/beshoo_a8"
+                target="_blank"
+                rel="noopener"
+                class="footer-glass-pill footer-pill-secondary footer-magnetic"
+              >
+                Instagram
+              </a>
+              <a
+                href="https://www.facebook.com/beshoy.ayman.477153/"
+                target="_blank"
+                rel="noopener"
+                class="footer-glass-pill footer-pill-secondary footer-magnetic"
+              >
+                Facebook
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 3. Bottom Bar ── -->
+        <div class="footer-bottom-bar">
+          <!-- Copyright -->
+          <div class="footer-copyright">
+            © 2025 Beshoy Aziz. All rights reserved.
+          </div>
+
+          <!-- Made with Love Badge -->
+          <div class="footer-glass-pill footer-love-badge">
+            <span class="footer-love-badge-label">Crafted with</span>
+            <span
+              class="animate-footer-heartbeat"
+              style="color: #ef4444; font-size: 0.9rem"
+              >❤</span
+            >
+            <span class="footer-love-badge-label">by</span>
+            <span class="footer-love-badge-name">Beshoy</span>
+          </div>
+
+          <!-- Back to Top -->
+          <button
+            id="footer-back-top"
+            class="footer-glass-pill footer-back-top footer-magnetic"
+            onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+            aria-label="Back to top"
+          >
+            <svg
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 10l7-7m0 0l7 7m-7-7v18" />
+            </svg>
+          </button>
+        </div>
+      </footer>
+    </div>
+
+    <!-- ----- PROJECT DETAILS MODAL ----- -->
+    <div
+      class="project-modal-overlay"
+      id="projectModalOverlay"
+      aria-hidden="true"
+    >
+      <div
+        class="project-modal"
+        id="projectModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="projectModalTitle"
+      >
+        <button
+          class="project-modal-close"
+          id="projectModalClose"
+          aria-label="Close project details"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M18 6 6 18M6 6l12 12" />
+          </svg>
+        </button>
+
+        <div class="project-modal-media">
+          <img id="projectModalImage" src="" alt="" />
+          <span class="project-modal-index" id="projectModalIndex">01</span>
+        </div>
+
+        <div class="project-modal-content">
+          <span class="project-modal-category" id="projectModalCategory"
+            >Category</span
+          >
+          <h3 class="project-modal-title" id="projectModalTitle">
+            Project Title
+          </h3>
+          <p class="project-modal-desc" id="projectModalDesc">
+            Description goes here.
+          </p>
+
+          <div class="project-modal-tags" id="projectModalTags"></div>
+
+          <div class="project-modal-actions">
+            <a
+              class="project-modal-btn primary"
+              id="projectModalLive"
+              href="#"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path
+                  d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                />
+              </svg>
+              <span>Live Site</span>
+            </a>
+            <a
+              class="project-modal-btn secondary"
+              id="projectModalGithub"
+              href="#"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                />
+              </svg>
+              <span>View Code</span>
+            </a>
+            <a
+              class="project-modal-btn secondary"
+              id="projectModalVideo"
+              href="#"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polygon points="6 3 20 12 6 21 6 3" />
+              </svg>
+              <span>Watch Demo</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- end #footer-curtain -->
+
+    <script src="script.js"></script>
+  </body>
+</html>
