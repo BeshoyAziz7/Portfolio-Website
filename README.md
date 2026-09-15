@@ -7,7 +7,7 @@
 
 [![Live Site](https://img.shields.io/badge/Live-Portfolio-8b5cf6?style=for-the-badge)](https://github.com/BeshoyAziz7)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-ec4899?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/beshoy-aziz-183450279/)
-[![Resume](https://img.shields.io/badge/Resume-Download-22d3ee?style=for-the-badge)](https://drive.google.com/file/d/1P5_H7ljKvamk8pAZjQxnL1b8-dATQmCX/view?usp=sharing)
+[![Resume](https://img.shields.io/badge/Resume-Download-22d3ee?style=for-the-badge)](https://drive.google.com/uc?export=download&id=1dr2GdxyxMEHD273-MYJ5MN4OXo54jvPi)
 
 </div>
 
