@@ -1585,6 +1585,37 @@ document.addEventListener("keydown", (e) => {
     github: "https://github.com/BeshoyAziz7/Portfolio-Website",
   },
 },
+{
+  src: "Images/CineFind.jpg",
+  alt: "CineFind - Movie Browsing App",
+  stackOX: -4,
+  stackOY: -18,
+  stackRotate: 10,
+  endX: 3,
+  endY: -36,
+  endRotate: 0,
+  endSmX: 22,
+  endSmY: 18,
+  w: 19,
+  h: 24,
+  z: 9,
+  scale: 0.85,
+  project: {
+    title: "CineFind",
+    category: "Web Application",
+    desc: "A cinematic, streaming-style movie browsing app where you can explore films by genre, search instantly, watch official trailers, and save titles to your own watchlist.",
+    tags: [
+      "React",
+      "Vite",
+      "TypeScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "TMDB API",
+    ],
+    live: "https://beshoyaziz7.github.io/cinefind/",
+    github: "https://github.com/BeshoyAziz7/cinefind",
+  },
+},
 ];
 
   const isTouch = window.matchMedia("(pointer: coarse)").matches;
