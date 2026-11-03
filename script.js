@@ -718,11 +718,72 @@ const navbar = document.getElementById("navbar");
   });
 })();
 
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 50) navbar.classList.add("scrolled");
-  else navbar.classList.remove("scrolled");
+// ====== SLIDING NAV INDICATOR ======
+const navLinksGroup = document.querySelector(".nav-links");
+const navIndicator = document.getElementById("navIndicator");
+const navProgressBar = document.getElementById("navProgressBar");
+
+function getNavLinks() {
+  return navLinksGroup
+    ? Array.from(navLinksGroup.querySelectorAll(".nav-link"))
+    : [];
+}
+
+function positionNavIndicator(target) {
+  if (!navLinksGroup || !navIndicator) return;
+  const link =
+    target ||
+    navLinksGroup.querySelector(".nav-link.active") ||
+    getNavLinks()[0];
+  if (!link || !navLinksGroup.offsetWidth) return;
+
+  navIndicator.style.width = `${link.offsetWidth}px`;
+  navIndicator.style.transform = `translateX(${link.offsetLeft}px)`;
+  navIndicator.classList.add("is-visible");
+}
+
+(function initNavIndicator() {
+  if (!navLinksGroup || !navIndicator) return;
+
+  getNavLinks().forEach((link) => {
+    link.addEventListener("mouseenter", () => positionNavIndicator(link));
+    link.addEventListener("focus", () => positionNavIndicator(link));
+  });
+
+  navLinksGroup.addEventListener("mouseleave", () => positionNavIndicator());
+  navLinksGroup.addEventListener("focusout", (event) => {
+    if (!navLinksGroup.contains(event.relatedTarget)) positionNavIndicator();
+  });
+
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(() => positionNavIndicator()).observe(navLinksGroup);
+  }
+
+  window.addEventListener("load", () => positionNavIndicator());
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => positionNavIndicator());
+  }
+
+  positionNavIndicator();
+})();
+
+// ====== SCROLL STATE + READING PROGRESS ======
+function updateScrollProgress() {
+  if (!navProgressBar) return;
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const progress =
+    maxScroll > 0 ? Math.min(1, Math.max(0, window.scrollY / maxScroll)) : 0;
+  navProgressBar.style.transform = `scaleX(${progress})`;
+}
+
+function handleNavScroll() {
+  navbar.classList.toggle("scrolled", window.scrollY > 50);
+  updateScrollProgress();
   updateActiveSection();
-});
+}
+
+window.addEventListener("scroll", handleNavScroll, { passive: true });
+handleNavScroll();
 
 function scrollToSection(sectionId) {
   closeMobileMenu();
@@ -762,32 +823,56 @@ function updateActiveSection() {
 
 function updateActiveNavLink() {
   document.querySelectorAll(".nav-link").forEach((link) => {
-    link.classList.remove("active");
-    if (link.dataset.section === currentSection) link.classList.add("active");
+    const isActive = link.dataset.section === currentSection;
+    link.classList.toggle("active", isActive);
+    if (isActive) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
   });
+  positionNavIndicator();
 }
 
 function toggleMobileMenu() {
+  setMobileMenuState(!isMenuOpen);
+}
+
+function setMobileMenuState(open) {
   const mobileMenu = document.getElementById("mobileMenu");
   const mobileMenuBtn = document.getElementById("mobileMenuBtn");
-  isMenuOpen = !isMenuOpen;
-  if (isMenuOpen) {
-    mobileMenu.classList.add("open");
-    mobileMenuBtn.classList.add("active");
-    document.body.style.overflow = "hidden";
-  } else {
-    closeMobileMenu();
+  if (!mobileMenu || !mobileMenuBtn) return;
+
+  isMenuOpen = open;
+  mobileMenu.classList.toggle("open", open);
+  mobileMenuBtn.classList.toggle("active", open);
+  mobileMenu.setAttribute("aria-hidden", String(!open));
+  mobileMenuBtn.setAttribute("aria-expanded", String(open));
+  mobileMenuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  document.body.style.overflow = open ? "hidden" : "";
+
+  if (open) {
+    const firstLink = mobileMenu.querySelector(".mobile-menu-link");
+    if (firstLink) {
+      window.setTimeout(
+        () => firstLink.focus({ preventScroll: true }),
+        140,
+      );
+    }
   }
 }
 
-function closeMobileMenu() {
-  const mobileMenu = document.getElementById("mobileMenu");
-  const mobileMenuBtn = document.getElementById("mobileMenuBtn");
-  isMenuOpen = false;
-  mobileMenu.classList.remove("open");
-  mobileMenuBtn.classList.remove("active");
-  document.body.style.overflow = "";
+function closeMobileMenu(restoreFocus = false) {
+  const wasOpen = isMenuOpen;
+  setMobileMenuState(false);
+
+  if (restoreFocus && wasOpen) {
+    const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+    if (mobileMenuBtn) mobileMenuBtn.focus({ preventScroll: true });
+  }
 }
+
+window.addEventListener("resize", () => {
+  positionNavIndicator();
+  if (window.innerWidth > 768 && isMenuOpen) closeMobileMenu();
+});
 
 document.querySelectorAll(".magnetic-btn").forEach((btn) => {
   btn.addEventListener("mousemove", (e) => {
@@ -839,7 +924,34 @@ document.addEventListener("click", (e) => {
     closeMobileMenu();
 });
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && isMenuOpen) closeMobileMenu();
+  if (!isMenuOpen) return;
+
+  if (e.key === "Escape") {
+    e.preventDefault();
+    closeMobileMenu(true);
+    return;
+  }
+
+  // Keep keyboard focus inside the open mobile menu
+  if (e.key !== "Tab") return;
+  const mobileMenu = document.getElementById("mobileMenu");
+  if (!mobileMenu) return;
+
+  const focusables = Array.from(
+    mobileMenu.querySelectorAll("a[href], button:not([disabled])"),
+  ).filter((el) => el.offsetParent !== null);
+  if (!focusables.length) return;
+
+  const first = focusables[0];
+  const last = focusables[focusables.length - 1];
+
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault();
+    first.focus();
+  }
 });
 
 // ====== DANCING LETTERS ======
@@ -1614,6 +1726,37 @@ document.addEventListener("keydown", (e) => {
     ],
     live: "https://beshoyaziz7.github.io/cinefind/",
     github: "https://github.com/BeshoyAziz7/cinefind",
+    },
+},
+{
+  src: "Images/Vaultex.png",
+  alt: "Vaultex - Desktop Game Launcher",
+  stackOX: -8,
+  stackOY: 8,
+  stackRotate: -12,
+  endX: -13,
+  endY: 38,
+  endRotate: 0,
+  endSmX: 0,
+  endSmY: 46,
+  w: 17,
+  h: 24,
+  z: 10,
+  scale: 0.85,
+  project: {
+    title: "Vaultex",
+    category: "Desktop App / Game Launcher",
+    desc: "A cyberpunk-styled Windows game launcher and library manager. It pulls game metadata from the RAWG API, matches titles against Hydra-compatible catalogs, and downloads them through a Python sidecar (torrents, resumable HTTP, multi-part archives). It then auto-extracts, launches with one click, and tracks playtime, all behind a hardened, Zod-validated IPC layer.",
+    tags: [
+      "Electron",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Python",
+      "libtorrent",
+      "SQLite",
+    ],
+    github: "https://github.com/BeshoyAziz7/Vaultex",
   },
 },
 ];
